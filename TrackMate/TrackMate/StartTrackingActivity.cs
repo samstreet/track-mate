@@ -65,6 +65,8 @@ namespace TrackMate
 
 				// pass vars to new Activity
 
+				API.CreateWebRequest();
+
 				StartActivity(stopTrackingActivity);
 			};
 

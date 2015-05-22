@@ -1,13 +1,14 @@
 ﻿using System;
-
-
-// this class will allow for updates to be posted to the server upon completion of the tracking
 using System.Net;
+using Android.App;
 
 
 namespace TrackMate
 {
-	public class Request
+
+	// this class will allow for updates to be posted to the server upon completion of the tracking
+	[Service]
+	public class Request : Service
 	{
 		public Request ()
 		{

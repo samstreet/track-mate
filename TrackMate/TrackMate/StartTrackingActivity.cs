@@ -1,13 +1,9 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Locations;
@@ -30,6 +26,7 @@ namespace TrackMate
 		double travelled = 0;
 		double lastLat = 0.0;
 		double lastLon = 0.0;
+		Journey thisJourney = new Journey();
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -60,6 +57,14 @@ namespace TrackMate
 
 			stop.Click += delegate {
 				var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
+
+				// push to a model
+				thisJourney.distanceTravelled = travelled;
+				thisJourney.endLat = lastLat;
+				thisJourney.endLon = lastLon;
+
+				// pass vars to new Activity
+
 				StartActivity(stopTrackingActivity);
 			};
 
@@ -100,8 +105,11 @@ namespace TrackMate
 			// set them up
 			if (lastLat == 0.0)
 				lastLat = location.Latitude;
+				thisJourney.startLat = location.Latitude;
+				
 			if (lastLon == 0.0)
-				lastLon = location.Longitude;			
+				lastLon = location.Longitude;
+				thisJourney.startLon = location.Longitude;
 
 			// calculate the distance travelled
 			calculateDistanceTravelled (location.Latitude, location.Longitude, lastLat, lastLon);

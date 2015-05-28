@@ -2,12 +2,11 @@
 
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Android.Locations;
-using Android.Util;
+using System.Collections.Generic;
+using Xamarin.Auth;
+using System.Linq;
 
 namespace TrackMate
 {
@@ -18,6 +17,13 @@ namespace TrackMate
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+
+			// check if an account exists if true: force to main activ
+			IEnumerable<Account> accounts = AccountStore.Create(this).FindAccountsForService("TrackMate");
+			if (!accounts.Any ()) {
+				var loginActivity = new Intent (this, typeof(LoginActivity));
+				StartActivity(loginActivity);
+			}
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);

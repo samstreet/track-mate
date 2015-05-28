@@ -1,1 +1,3 @@
-/private/var/www/TrackMate/TrackMate/TrackMate/bin/Debug/TrackMate.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/bin/Debug/TrackMate.dll
+/private/var/www/Track-Mate-Git/TrackMate/packages/Newtonsoft.Json.6.0.8/lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll
+/private/var/www/Track-Mate-Git/TrackMate/packages/Xamarin.Auth.NoXamStore.1.0.0/lib/MonoAndroid/Xamarin.Auth.Android.dll

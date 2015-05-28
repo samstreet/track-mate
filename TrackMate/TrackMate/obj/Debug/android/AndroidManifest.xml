@@ -10,6 +10,13 @@
     </activity>
     <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.StartTrackingActivity" />
     <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.StopTrackingActivity" />
+    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.LoginActivity" />
+    <activity android:label="Register" android:name="md55a0d52af901586059d3aed079f94fb17.RegisterActivity" />
+    <activity android:label="Web Authenticator" android:name="md550f8a10a740eb4fb6376baab8337ce22.FormAuthenticatorActivity" />
+    <activity android:label="Web Authenticator" android:name="md550f8a10a740eb4fb6376baab8337ce22.WebAuthenticatorActivity" />
+    <activity android:label="NUnitLite runner" android:name="md5e0d9a58f8ef4c80c20dd923cca887f60.TestSuiteActivity" />
+    <activity android:label="Test Result" android:name="md5e0d9a58f8ef4c80c20dd923cca887f60.TestResultActivity" />
+    <activity android:configChanges="keyboardHidden|orientation" android:label="Options" android:windowSoftInputMode="stateUnspecified|adjustPan" android:name="md5e0d9a58f8ef4c80c20dd923cca887f60.OptionsActivity" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="com.companyname.trackmate.mono.MonoRuntimeProvider.__mono_init__" />
     <receiver android:name="mono.android.Seppuku">
       <intent-filter>
@@ -19,6 +26,7 @@
     </receiver>
   </application>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

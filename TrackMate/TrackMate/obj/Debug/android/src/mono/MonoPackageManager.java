@@ -80,6 +80,9 @@ public class MonoPackageManager {
 class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		"TrackMate.dll",
+		"Newtonsoft.Json.dll",
+		"Xamarin.Auth.Android.dll",
+		"Xamarin.Android.NUnitLite.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};

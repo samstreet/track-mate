@@ -67,6 +67,11 @@
     <Compile Include="LoginActivity.cs" />
     <Compile Include="RegisterActivity.cs" />
     <Compile Include="API\Register.cs" />
+    <Compile Include="Service\LocationServiceBinder.cs" />
+    <Compile Include="Service\LocationService.cs" />
+    <Compile Include="Service\LocationServiceConnection.cs" />
+    <Compile Include="Service\App.cs" />
+    <Compile Include="Service\ServiceConnectedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -86,6 +91,11 @@
     <AndroidResource Include="Resources\layout\stopTracking.axml" />
     <AndroidResource Include="Resources\layout\Login.axml" />
     <AndroidResource Include="Resources\layout\Register.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\track_mate_logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\track_mate_logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\track_mate_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\track_mate_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\track_mate_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\xamstore-xamarin.auth.1.2.2\build\monoandroid\xamstore-xamarin.auth.props" Condition="Exists('..\packages\xamstore-xamarin.auth.1.2.2\build\monoandroid\xamstore-xamarin.auth.props')" />

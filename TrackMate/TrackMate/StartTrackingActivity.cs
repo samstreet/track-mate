@@ -8,12 +8,15 @@ using Android.Views;
 using Android.Widget;
 using Android.Locations;
 using Android.Util;
+using Android.Provider;
 
 namespace TrackMate
 {
 	[Activity (Label = "TrackMate", Icon = "@drawable/icon")]			
-	public class StartTrackingActivity : Activity, ILocationListener
+	public class StartTrackingActivity : Activity
 	{
+		readonly string logTag = "MainActivity";
+
 		// variables accessible by the class
 		LocationManager locMgr;
 		Button start;
@@ -36,11 +39,15 @@ namespace TrackMate
 			// get the location service 
 			locMgr = GetSystemService (Context.LocationService) as LocationManager;
 
-
-			Criteria criteriaForLocationService = new Criteria{
-				//A constant indicating an approximate accuracy
-				Accuracy = Accuracy.Fine,
-				PowerRequirement = Power.Low
+			App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
+				Log.Debug (logTag, "ServiceConnected Event Raised");
+				// notifies us of location changes from the system
+				App.Current.LocationService.LocationChanged += HandleLocationChanged;
+				//notifies us of user changes to the location provider (ie the user disables or enables GPS)
+				App.Current.LocationService.ProviderDisabled += HandleProviderDisabled;
+				App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
+				// notifies us of the changing status of a provider (ie GPS no longer available)
+				App.Current.LocationService.StatusChanged += HandleStatusChanged;
 			};
 
 			// view related vars
@@ -63,73 +70,27 @@ namespace TrackMate
 				thisJourney.endLat = lastLat;
 				thisJourney.endLon = lastLon;
 
-				// pass vars to new Activity
-
-				API.MakeAPICall("save-journey");
-
 				StartActivity(stopTrackingActivity);
 			};
 
 		}
 
-		protected override void OnResume ()
+		protected override void OnPause()
 		{
-			base.OnResume ();
-			Provider = LocationManager.GpsProvider;
-
-			if(locMgr.IsProviderEnabled(Provider))
-			{
-				// make a request to update the location every 2 seconds or if the distance travelled is greater than 1m
-				locMgr.RequestLocationUpdates (Provider, 2000, 1, this);
-			}
-			else
-			{
-				Log.Info("provider", Provider + " is not available. Does the device have location services enabled?");
-			}
+			Log.Debug (logTag, "Location app is moving to background");
+			base.OnPause();
 		}
 
-		// remove location based updtes when the device is paused
-		protected override void OnPause ()
+		protected override void OnResume()
 		{
-			base.OnPause ();
-			locMgr.RemoveUpdates (this);
+			Log.Debug (logTag, "Location app is moving into foreground");
+			base.OnPause();
 		}
 
-
-		// implement the interface of: ILocationListener
-
-		public void OnLocationChanged (Location location)
+		protected override void OnDestroy ()
 		{
-			latitude.Text = "Latitude: " + location.Latitude;
-			longitude.Text = "Longitude: " + location.Longitude;
-			locationStatus.Text = "Location: Attained";
-
-			// set them up
-			if (lastLat == 0.0)
-				lastLat = location.Latitude;
-				thisJourney.startLat = location.Latitude;
-				
-			if (lastLon == 0.0)
-				lastLon = location.Longitude;
-				thisJourney.startLon = location.Longitude;
-
-			// calculate the distance travelled
-			calculateDistanceTravelled (location.Latitude, location.Longitude, lastLat, lastLon);
-		}
-
-		public void OnProviderDisabled (string provider)
-		{
-			locationStatus.Text = provider + " is not available. Does the device have location services enabled?";
-		}
-
-		public void OnProviderEnabled (string provider)
-		{
-			locationStatus.Text = provider + " is available.";
-		}
-
-		public void OnStatusChanged (string provider, Availability status, Bundle extras)
-		{
-			locationStatus.Text = "OnStatsChanged";
+			Log.Debug (logTag, "Location app is becoming inactive");
+			base.OnDestroy ();
 		}
 
 		// calculations for distance travelled
@@ -172,6 +133,73 @@ namespace TrackMate
 
 
 			distanceTravelled.Text = string.Format ("Distance travelled: {0} {1}", travelled, travelUnit);
+		}
+
+		///<summary>
+		/// Updates UI with location data
+		/// </summary>
+		public void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+		{
+			Android.Locations.Location location = e.Location;
+			Log.Debug (logTag, "Foreground updating");
+
+			latitude.Text = "Latitude: " + location.Latitude;
+			longitude.Text = "Longitude: " + location.Longitude;
+			locationStatus.Text = "Location: Attained";
+
+			// set them up
+			if (lastLat == 0.0)
+				lastLat = location.Latitude;
+			thisJourney.startLat = location.Latitude;
+
+			if (lastLon == 0.0)
+				lastLon = location.Longitude;
+			thisJourney.startLon = location.Longitude;
+
+			// calculate the distance travelled
+			calculateDistanceTravelled (location.Latitude, location.Longitude, lastLat, lastLon);
+
+			// these events are on a background thread, need to update on the UI thread
+			RunOnUiThread (() => {
+				latitude.Text = String.Format ("Latitude: {0}", location.Latitude);
+				longitude.Text = String.Format ("Longitude: {0}", location.Longitude);
+			});
+
+		}
+
+		public void HandleProviderDisabled(object sender, ProviderDisabledEventArgs e)
+		{
+			Log.Debug (logTag, "Location provider disabled event raised");
+			locationStatus.Text = "provider disabled";
+
+			// Build the alert dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.SetTitle("Location Services Not Active");
+			builder.SetMessage("Please enable Location Services and GPS");
+			builder.SetPositiveButton ("Good", (senderAlert, args) => {
+				Intent intent = new Intent(Settings.ActionLocationSourceSettings);
+				StartActivity(intent);
+			} );
+			Dialog alertDialog = builder.Create();
+			alertDialog.SetCanceledOnTouchOutside(false);
+
+			RunOnUiThread (() => {
+				builder.Show();
+			} );
+
+		
+		}
+
+		public void HandleProviderEnabled(object sender, ProviderEnabledEventArgs e)
+		{
+			Log.Debug (logTag, "Location provider enabled event raised");
+			locationStatus.Text = "provider enabled";
+		}
+
+		public void HandleStatusChanged(object sender, StatusChangedEventArgs e)
+		{
+			Log.Debug (logTag, "Location status changed, event raised");
+			locationStatus.Text = "status changed";
 		}
 	}
 }

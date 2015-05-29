@@ -40,3 +40,8 @@
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/layout/register.xml
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/bin/Debug/Newtonsoft.Json.dll
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/bin/Debug/Xamarin.Auth.Android.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-hdpi/track_mate_logo.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-mdpi/track_mate_logo.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xhdpi/track_mate_logo.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xxhdpi/track_mate_logo.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xxxhdpi/track_mate_logo.png

@@ -16,69 +16,80 @@ namespace TrackMate
 	[Activity (Label = "TrackMate", MainLauncher = true, Icon = "@drawable/icon")]			
 	public class LoginActivity : Activity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected async override void OnCreate (Bundle bundle)
 		{
-			base.OnCreate (bundle);
+			// check if an account exists if true: force to main activ
+			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
-			SetContentView (Resource.Layout.Login);
+			bool isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
 
-			Button login = FindViewById<Button>(Resource.Id.login);
-			Button register = FindViewById<Button>(Resource.Id.register);
-			TextView username = FindViewById<TextView> (Resource.Id.username);
-			TextView password = FindViewById<TextView> (Resource.Id.password);
+			if (accounts.Any () && isValid) {
+				var mainActivity = new Intent (this, typeof(MainActivity));
+				StartActivity (mainActivity);
 
-			// testing only 
-			TextView output = FindViewById<TextView> (Resource.Id.output);
+			} else {
 
-			register.Click += delegate {
-				var registerActivity = new Intent (this, typeof(RegisterActivity));
-				StartActivity(registerActivity);
-			};
+				base.OnCreate (bundle);
 
-			login.Click += async (object sender, EventArgs e) => {
-				var request = new Request();
+				SetContentView (Resource.Layout.Login);
 
-				var loginRequest = new LoginRequest();
-				loginRequest.userName = username.Text;
-				loginRequest.password = password.Text;
+				Button login = FindViewById<Button> (Resource.Id.login);
+				Button register = FindViewById<Button> (Resource.Id.register);
+				TextView username = FindViewById<TextView> (Resource.Id.username);
+				TextView password = FindViewById<TextView> (Resource.Id.password);
 
-				string postBody = loginRequest.CreateJson(); 
+				// testing only 
+				TextView output = FindViewById<TextView> (Resource.Id.output);
 
-				Task<string> response = request.makeRequest("authenticate", "POST", postBody);
+				register.Click += delegate {
+					var registerActivity = new Intent (this, typeof(RegisterActivity));
+					StartActivity (registerActivity);
+				};
 
-				string value = await response;
+				login.Click += async (object sender, EventArgs e) => {
+					var request = new Request ();
 
-				var auth = JObject.Parse(value);
+					var loginRequest = new LoginRequest ();
+					loginRequest.userName = username.Text;
+					loginRequest.password = password.Text;
 
-				string success = auth["success"].ToString();
+					string postBody = loginRequest.CreateJson (); 
 
-				if(success.ToLower() == "true"){
+					Task<string> response = request.makeRequest ("authenticate", "POST", postBody);
 
-					// generate a new account with the details we pass back form the api
-					var user = new Account();
-					user.Username = username.Text;
-					user.Properties.Add("auth_token", auth["data"]["auth"]["token"].ToString());
-					user.Properties.Add("auth_token_expires", auth["data"]["auth"]["auth_expires"]["date"].ToString());
-					user.Properties.Add("refresh_token", auth["data"]["refresh"]["token"].ToString());
-					user.Properties.Add("refresh_token_expires", auth["data"]["refresh"]["refresh_expires"]["date"].ToString());
+					string value = await response;
 
-					// run in the background?
-					// I think this will work?
-					AccountStore.Create (this).Save (user, "TrackMate");
+					var auth = JObject.Parse (value);
 
-					// push out to the main activity
-					var mainActivity = new Intent (this, typeof(MainActivity));
-					StartActivity(mainActivity);
+					string success = auth ["success"].ToString ();
 
-				} else {
-					string error = auth["error"].ToString();
-					output.Text = error;
-				}
+					if (success.ToLower () == "true") {
+
+						// generate a new account with the details we pass back form the api
+						var user = new Account ();
+						user.Username = username.Text;
+						user.Properties.Add ("auth_token", auth ["data"] ["auth"] ["token"].ToString ());
+						user.Properties.Add ("auth_token_expires", auth ["data"] ["auth"] ["auth_expires"] ["date"].ToString ());
+						user.Properties.Add ("refresh_token", auth ["data"] ["refresh"] ["token"].ToString ());
+						user.Properties.Add ("refresh_token_expires", auth ["data"] ["refresh"] ["refresh_expires"] ["date"].ToString ());
+
+						// run in the background?
+						// I think this will work?
+						AccountStore.Create (this).Save (user, "TrackMate");
+
+						// push out to the main activity
+						var mainActivity = new Intent (this, typeof(MainActivity));
+						StartActivity (mainActivity);
+
+					} else {
+						string error = auth ["error"].ToString ();
+						output.Text = error;
+					}
 
 
-			};
+				};
 
-			// Create your application here
+			}
 		}
 	}
 }

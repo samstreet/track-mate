@@ -45,7 +45,7 @@ namespace TrackMate
 			var refresh_token_expires = Convert.ToDateTime(user_properties["refresh_token_expires"]);
 
 			// monster if statement
-			if (!isAuthTokenValid (auth_expires)) {
+			if (isAuthTokenValid (auth_expires) && isRefreshTokenValid (refresh_token_expires)) {
 				return true;
 			} else if (isRefreshTokenValid (refresh_token_expires) && !isAuthTokenValid(auth_expires)) {
 				// update the auth token so we can keep the user perpetually logged in

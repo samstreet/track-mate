@@ -32,6 +32,8 @@ namespace TrackMate
 				
 
 				if (isValid) {
+
+					accounts.FirstOrDefault ();
 					// assume everything is okay and continue with the process
 
 					// Set our view from the "main" layout resource

@@ -25,7 +25,7 @@ namespace TrackMate
 		TextView latitude;
 		TextView locationStatus;
 		TextView distanceTravelled;
-		string Provider; // the GPS Provider
+		//string Provider; // the GPS Provider
 		double travelled = 0;
 		double lastLat = 0.0;
 		double lastLon = 0.0;

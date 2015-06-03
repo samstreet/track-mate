@@ -9,6 +9,9 @@ using Android.Widget;
 using Android.Locations;
 using Android.Util;
 using Android.Provider;
+using System.Collections.Generic;
+using Xamarin.Auth;
+using System.Linq;
 
 namespace TrackMate
 {
@@ -31,68 +34,80 @@ namespace TrackMate
 		double lastLon = 0.0;
 		Journey thisJourney = new Journey();
 
-		protected override void OnCreate (Bundle bundle)
+		protected async override void OnCreate (Bundle bundle)
 		{
-			base.OnCreate (bundle);
-			SetContentView (Resource.Layout.StartTracking);
+			// check if an account exists if true: force to main activ
+			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
-			// get the location service 
-			locMgr = GetSystemService (Context.LocationService) as LocationManager;
+			bool isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
 
-			// could move this onto its own method
-			if (!locMgr.IsProviderEnabled (LocationManager.GpsProvider) ||
-				!locMgr.IsProviderEnabled (LocationManager.NetworkProvider)) {
-				// Build the alert dialog
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.SetTitle("Location Services Not Active");
-				builder.SetMessage("Please enable Location Services and GPS");
-				builder.SetPositiveButton ("Good", (senderAlert, args) => {
-					Intent intent = new Intent(Settings.ActionLocationSourceSettings);
-					StartActivity(intent);
-				} );
-				Dialog alertDialog = builder.Create();
-				alertDialog.SetCanceledOnTouchOutside(false);
+			if (!accounts.Any () && !isValid) {
+				var loginActivity = new Intent (this, typeof(LoginActivity));
+				StartActivity (loginActivity);
 
-				RunOnUiThread (() => {
-					builder.Show();
-				} );
+			} else {
+
+
+				base.OnCreate (bundle);
+				SetContentView (Resource.Layout.StartTracking);
+
+				// get the location service 
+				locMgr = GetSystemService (Context.LocationService) as LocationManager;
+
+				// could move this onto its own method
+				if (!locMgr.IsProviderEnabled (LocationManager.GpsProvider) ||
+					!locMgr.IsProviderEnabled (LocationManager.NetworkProvider)) {
+					// Build the alert dialog
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.SetTitle("Location Services Not Active");
+					builder.SetMessage("Please enable Location Services and GPS");
+					builder.SetPositiveButton ("Good", (senderAlert, args) => {
+						Intent intent = new Intent(Settings.ActionLocationSourceSettings);
+						StartActivity(intent);
+					} );
+					Dialog alertDialog = builder.Create();
+					alertDialog.SetCanceledOnTouchOutside(false);
+
+					RunOnUiThread (() => {
+						builder.Show();
+					} );
+				}
+
+
+
+				App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
+					Log.Debug (logTag, "ServiceConnected Event Raised");
+					// notifies us of location changes from the system
+					App.Current.LocationService.LocationChanged += HandleLocationChanged;
+					//notifies us of user changes to the location provider (ie the user disables or enables GPS)
+					App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
+					// notifies us of the changing status of a provider (ie GPS no longer available)
+					App.Current.LocationService.StatusChanged += HandleStatusChanged;
+				};
+
+				// view related vars
+				start = FindViewById<Button>(Resource.Id.startTracking);
+				stop = FindViewById<Button>(Resource.Id.stopTracking);
+				latitude = FindViewById<TextView> (Resource.Id.latitude);
+				longitude = FindViewById<TextView> (Resource.Id.longitude);
+				locationStatus = FindViewById<TextView> (Resource.Id.locationStatus);
+				distanceTravelled = FindViewById<TextView> (Resource.Id.distanceTravelled);
+
+				start.Click += delegate {
+					stop.Visibility = ViewStates.Visible;
+				};
+
+				stop.Click += delegate {
+					var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
+
+					// push to a model
+					thisJourney.distanceTravelled = travelled;
+					thisJourney.endLat = lastLat;
+					thisJourney.endLon = lastLon;
+
+					StartActivity(stopTrackingActivity);
+				};
 			}
-
-
-
-			App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
-				Log.Debug (logTag, "ServiceConnected Event Raised");
-				// notifies us of location changes from the system
-				App.Current.LocationService.LocationChanged += HandleLocationChanged;
-				//notifies us of user changes to the location provider (ie the user disables or enables GPS)
-				App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
-				// notifies us of the changing status of a provider (ie GPS no longer available)
-				App.Current.LocationService.StatusChanged += HandleStatusChanged;
-			};
-
-			// view related vars
-			start = FindViewById<Button>(Resource.Id.startTracking);
-			stop = FindViewById<Button>(Resource.Id.stopTracking);
-			latitude = FindViewById<TextView> (Resource.Id.latitude);
-			longitude = FindViewById<TextView> (Resource.Id.longitude);
-			locationStatus = FindViewById<TextView> (Resource.Id.locationStatus);
-			distanceTravelled = FindViewById<TextView> (Resource.Id.distanceTravelled);
-
-			start.Click += delegate {
-				stop.Visibility = ViewStates.Visible;
-			};
-
-			stop.Click += delegate {
-				var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
-
-				// push to a model
-				thisJourney.distanceTravelled = travelled;
-				thisJourney.endLat = lastLat;
-				thisJourney.endLon = lastLon;
-
-				StartActivity(stopTrackingActivity);
-			};
-
 		}
 
 		protected override void OnPause()

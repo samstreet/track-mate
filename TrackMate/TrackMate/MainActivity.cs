@@ -65,6 +65,35 @@ namespace TrackMate
 				}
 			}
 		}
+
+		protected override void OnPause()
+		{
+			base.OnPause();
+		}
+
+
+		// the user is resuming the application, check if the user is still valid
+		protected async override void OnResume()
+		{
+			// check if an account exists if true: force to main activ
+			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
+
+			bool isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
+
+			if (!accounts.Any () && !isValid) {
+				var loginActivity = new Intent (this, typeof(LoginActivity));
+				StartActivity (loginActivity);
+
+			}
+
+			base.OnPause();
+		}
+
+		protected override void OnDestroy ()
+		{
+			base.OnDestroy ();
+		}
+
 	}
 }
 

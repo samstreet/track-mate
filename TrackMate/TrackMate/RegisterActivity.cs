@@ -51,9 +51,9 @@ namespace TrackMate
 				string value = await response;
 
 				output.Text = value;
-			};
 
-			// Create your application here
+				// need to implement the new account data here, store auth tokens etc.
+			};
 		}
 	}
 }

@@ -41,11 +41,19 @@ namespace TrackMate
 	[DataContract]
 	public class LoginRequest : Register{
 
-		[DataMember (Name="userName")]
+		[DataMember (Name="username")]
 		public string userName { get; set;}
 
 		[DataMember (Name="password")]
 		public string password { get; set;}
+
+	}
+
+	[DataContract]
+	public class ReAuthenticateRequest : Register{
+
+		[DataMember (Name="refresh_token")]
+		public string refresh_token { get; set;}
 
 	}
 }

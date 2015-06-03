@@ -2,15 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.trackmate">
   <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19" />
   <application android:label="TrackMate" android:theme="@android:style/Theme.Holo" android:name="mono.android.app.Application" android:debuggable="true">
-    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.MainActivity">
+    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.MainActivity" />
+    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.StartTrackingActivity" />
+    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.StopTrackingActivity" />
+    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.LoginActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.StartTrackingActivity" />
-    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.StopTrackingActivity" />
-    <activity android:icon="@drawable/icon" android:label="TrackMate" android:name="md55a0d52af901586059d3aed079f94fb17.LoginActivity" />
     <activity android:label="Register" android:name="md55a0d52af901586059d3aed079f94fb17.RegisterActivity" />
     <service android:name="md55a0d52af901586059d3aed079f94fb17.LocationService" />
     <activity android:label="Web Authenticator" android:name="md550f8a10a740eb4fb6376baab8337ce22.FormAuthenticatorActivity" />

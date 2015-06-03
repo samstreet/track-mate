@@ -19,6 +19,8 @@ namespace TrackMate
 		public async Task<string> makeRequest (string endpoint, string method, string data)
 		{
 			HttpClient request = new HttpClient (); 
+			
+			// default params
 			request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 			string url = "http://samstreet.niftydigital.co.uk/api/" + endpoint + "";
 
@@ -36,20 +38,5 @@ namespace TrackMate
 
 			// else { write a seperate GET handler }
 		}
-
-		// create a web request
-		// need to change the params of this shiz
-		public HttpClient CreateWebRequest(string endpoint)
-		{
-			HttpClient request = new HttpClient (); 
-			request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-			string url = "http://samstreet.niftydigital.co.uk/api/" + endpoint + "";
-
-			return request;
-		}
-	}
-
-
-
 }
-
+}

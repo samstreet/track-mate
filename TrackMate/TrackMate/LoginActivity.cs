@@ -13,7 +13,7 @@ using Xamarin.Auth;
 
 namespace TrackMate
 {
-	[Activity (Label = "TrackMate" , Icon = "@drawable/icon")]			
+	[Activity (Label = "TrackMate", MainLauncher = true, Icon = "@drawable/icon")]			
 	public class LoginActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -54,17 +54,19 @@ namespace TrackMate
 
 				if(success.ToLower() == "true"){
 
-					User userObject = new User();
-					userObject.firstName = auth["data"]["user"]["firstName"].ToString();
-
+					// generate a new account with the details we pass back form the api
 					var user = new Account();
-					user.Username = auth["data"]["user"]["userName"].ToString();
-					user.Properties.Add("username", auth["data"]["user"]["userName"].ToString());
-					user.Properties.Add("password", auth["data"]["user"]["password"].ToString());
-					user.Properties.Add("allDetails", auth.ToString());
+					user.Username = username.Text;
+					user.Properties.Add("auth_token", auth["data"]["auth"]["token"].ToString());
+					user.Properties.Add("auth_token_expires", auth["data"]["auth"]["auth_expires"]["date"].ToString());
+					user.Properties.Add("refresh_token", auth["data"]["refresh"]["token"].ToString());
+					user.Properties.Add("refresh_token_expires", auth["data"]["refresh"]["refresh_expires"]["date"].ToString());
 
-					AccountStore.Create(this).Save(user, "TrackMate");
+					// run in the background?
+					// I think this will work?
+					AccountStore.Create (this).Save (user, "TrackMate");
 
+					// push out to the main activity
 					var mainActivity = new Intent (this, typeof(MainActivity));
 					StartActivity(mainActivity);
 

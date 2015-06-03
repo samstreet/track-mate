@@ -72,6 +72,7 @@
     <Compile Include="Service\LocationServiceConnection.cs" />
     <Compile Include="Service\App.cs" />
     <Compile Include="Service\ServiceConnectedEventArgs.cs" />
+    <Compile Include="Service\Auth.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

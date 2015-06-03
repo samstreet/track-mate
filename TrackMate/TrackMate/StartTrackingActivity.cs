@@ -39,12 +39,32 @@ namespace TrackMate
 			// get the location service 
 			locMgr = GetSystemService (Context.LocationService) as LocationManager;
 
+			// could move this onto its own method
+			if (!locMgr.IsProviderEnabled (LocationManager.GpsProvider) ||
+				!locMgr.IsProviderEnabled (LocationManager.NetworkProvider)) {
+				// Build the alert dialog
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.SetTitle("Location Services Not Active");
+				builder.SetMessage("Please enable Location Services and GPS");
+				builder.SetPositiveButton ("Good", (senderAlert, args) => {
+					Intent intent = new Intent(Settings.ActionLocationSourceSettings);
+					StartActivity(intent);
+				} );
+				Dialog alertDialog = builder.Create();
+				alertDialog.SetCanceledOnTouchOutside(false);
+
+				RunOnUiThread (() => {
+					builder.Show();
+				} );
+			}
+
+
+
 			App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
 				Log.Debug (logTag, "ServiceConnected Event Raised");
 				// notifies us of location changes from the system
 				App.Current.LocationService.LocationChanged += HandleLocationChanged;
 				//notifies us of user changes to the location provider (ie the user disables or enables GPS)
-				App.Current.LocationService.ProviderDisabled += HandleProviderDisabled;
 				App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
 				// notifies us of the changing status of a provider (ie GPS no longer available)
 				App.Current.LocationService.StatusChanged += HandleStatusChanged;

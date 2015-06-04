@@ -13,15 +13,20 @@ using Xamarin.Auth;
 
 namespace TrackMate
 {
-	[Activity (Label = "TrackMate", MainLauncher = true, Icon = "@drawable/icon")]			
+	[Activity (Label = "TrackMate", MainLauncher = true,Icon = "@drawable/icon")]			
 	public class LoginActivity : Activity
 	{
 		protected async override void OnCreate (Bundle bundle)
 		{
+			base.OnCreate (bundle);
+
+			bool isValid = false;
+
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
-			bool isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
+			if(accounts.Any())
+				isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
 
 			if (accounts.Any () && isValid) {
 				var mainActivity = new Intent (this, typeof(MainActivity));
@@ -29,7 +34,7 @@ namespace TrackMate
 
 			} else {
 
-				base.OnCreate (bundle);
+
 
 				SetContentView (Resource.Layout.Login);
 

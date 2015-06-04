@@ -1,23 +1,21 @@
 ﻿<Properties StartupItem="TrackMate/TrackMate.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Nexus 5 (KitKat)" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TrackMate/Service/Auth.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TrackMate/StartTrackingActivity.cs">
     <Files>
-      <File FileName="TrackMate/RegisterActivity.cs" Line="1" Column="1" />
       <File FileName="TrackMate/MainActivity.cs" Line="1" Column="1" />
-      <File FileName="TrackMate/Service/Auth.cs" Line="68" Column="5" />
-      <File FileName="TrackMate/Service/API.cs" Line="1" Column="1" />
+      <File FileName="TrackMate/Service/Auth.cs" Line="1" Column="1" />
       <File FileName="TrackMate/LoginActivity.cs" Line="1" Column="1" />
-      <File FileName="TrackMate/Service/Request.cs" Line="1" Column="1" />
+      <File FileName="TrackMate/StartTrackingActivity.cs" Line="238" Column="32" />
+      <File FileName="TrackMate/RegisterActivity.cs" Line="1" Column="1" />
+      <File FileName="TrackMate/Service/LocationService.cs" Line="87" Column="1" />
+      <File FileName="TrackMate/LatLonPoints.cs" Line="21" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/StartTrackingActivity.cs" line="68" column="1" />
-      <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/StartTrackingActivity.cs" line="70" column="1" />
       <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/Service/API.cs" line="13" column="1" />
       <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/Service/API.cs" line="32" column="1" />
       <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/Service/API.cs" line="35" column="43" />
-      <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/MainActivity.cs" line="33" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

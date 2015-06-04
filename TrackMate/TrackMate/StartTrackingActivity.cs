@@ -12,6 +12,8 @@ using Android.Provider;
 using System.Collections.Generic;
 using Xamarin.Auth;
 using System.Linq;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace TrackMate
 {
@@ -28,7 +30,9 @@ namespace TrackMate
 		TextView latitude;
 		TextView locationStatus;
 		TextView distanceTravelled;
+		TextView output;
 		//string Provider; // the GPS Provider
+		List<string> lat_lon_points = new List<string>();
 		double travelled = 0;
 		double lastLat = 0.0;
 		double lastLon = 0.0;
@@ -36,10 +40,15 @@ namespace TrackMate
 
 		protected async override void OnCreate (Bundle bundle)
 		{
+			base.OnCreate (bundle);
+
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
 			bool isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
+
+			var ride = new NewRideRequest();
+			var request = new Request();
 
 			if (!accounts.Any () && !isValid) {
 				var loginActivity = new Intent (this, typeof(LoginActivity));
@@ -47,8 +56,6 @@ namespace TrackMate
 
 			} else {
 
-
-				base.OnCreate (bundle);
 				SetContentView (Resource.Layout.StartTracking);
 
 				// get the location service 
@@ -61,7 +68,7 @@ namespace TrackMate
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.SetTitle("Location Services Not Active");
 					builder.SetMessage("Please enable Location Services and GPS");
-					builder.SetPositiveButton ("Good", (senderAlert, args) => {
+					builder.SetPositiveButton ("Ok", (senderAlert, args) => {
 						Intent intent = new Intent(Settings.ActionLocationSourceSettings);
 						StartActivity(intent);
 					} );
@@ -93,19 +100,70 @@ namespace TrackMate
 				locationStatus = FindViewById<TextView> (Resource.Id.locationStatus);
 				distanceTravelled = FindViewById<TextView> (Resource.Id.distanceTravelled);
 
-				start.Click += delegate {
+				output = FindViewById<TextView> (Resource.Id.output);
+
+				// hide it all
+				stop.Visibility = ViewStates.Invisible;
+				start.Visibility = ViewStates.Visible;
+				latitude.Visibility = ViewStates.Invisible;
+				longitude.Visibility = ViewStates.Invisible;
+				distanceTravelled.Visibility = ViewStates.Invisible;
+
+				start.Click += async (object sender, EventArgs e) => {
+
+					// the user auth_token as we are valid at this point
+					ride.auth_token = accounts.FirstOrDefault().Properties["auth_token"];
+
+					var json = "{ \"user\" : " + ride.CreateJson() + "}";
+
+					Task<string> response = request.makeRequest ("new-ride", "POST", json);
+
+					string value = await response;
+
+					var auth = JObject.Parse (value);
+
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.SetTitle("Server Response");
+					builder.SetMessage(auth.ToString());
+					Dialog alertDialog = builder.Create();
+					alertDialog.SetCanceledOnTouchOutside(true);
+
+					RunOnUiThread (() => {
+						builder.Show();
+					} );
+
 					stop.Visibility = ViewStates.Visible;
+					start.Visibility = ViewStates.Visible;
+					latitude.Visibility = ViewStates.Visible;
+					longitude.Visibility = ViewStates.Visible;
+					distanceTravelled.Visibility = ViewStates.Visible;
+
 				};
 
 				stop.Click += delegate {
-					var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
+					//var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
 
-					// push to a model
-					thisJourney.distanceTravelled = travelled;
-					thisJourney.endLat = lastLat;
-					thisJourney.endLon = lastLon;
+					// finsih the ride and ammend the data to be sent
+					ride.lat_lon_points = lat_lon_points;
+					ride.distance = travelled;
+					ride.end_time = new DateTime();
 
-					StartActivity(stopTrackingActivity);
+					// make the request
+					var ride_json = "{ \"ride\" : " + ride.CreateJson() + "}";
+
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.SetTitle("Lat Lon points");
+					builder.SetMessage(ride_json);
+					Dialog alertDialog = builder.Create();
+					alertDialog.SetCanceledOnTouchOutside(true);
+
+					RunOnUiThread (() => {
+						builder.Show();
+					} );
+
+					//var save_ride = request.makeRequest("save-ride", "POST", ride_json);
+
+					//StartActivity(stopTrackingActivity);
 				};
 			}
 		}
@@ -191,11 +249,16 @@ namespace TrackMate
 				lastLon = location.Longitude;
 			thisJourney.startLon = location.Longitude;
 
+			string points = new LatLonPoints (){ Lat = location.Latitude.ToString(), Lon = location.Longitude.ToString() }.ToJSON();
+
+			lat_lon_points.Add(points);
+ 			
 			// calculate the distance travelled
 			calculateDistanceTravelled (location.Latitude, location.Longitude, lastLat, lastLon);
 
 			// these events are on a background thread, need to update on the UI thread
 			RunOnUiThread (() => {
+				output.Text = lat_lon_points.FirstOrDefault();
 				latitude.Text = String.Format ("Latitude: {0}", location.Latitude);
 				longitude.Text = String.Format ("Longitude: {0}", location.Longitude);
 			});

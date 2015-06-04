@@ -94,23 +94,23 @@ namespace TrackMate
 			// aapt resource value: 0x7f050007
 			public const int OptionRemoteServer = 2131034119;
 			
-			// aapt resource value: 0x7f050022
-			public const int OptionsButton = 2131034146;
-			
-			// aapt resource value: 0x7f05001d
-			public const int ResultFullName = 2131034141;
-			
-			// aapt resource value: 0x7f05001f
-			public const int ResultMessage = 2131034143;
+			// aapt resource value: 0x7f050023
+			public const int OptionsButton = 2131034147;
 			
 			// aapt resource value: 0x7f05001e
-			public const int ResultResultState = 2131034142;
-			
-			// aapt resource value: 0x7f05001c
-			public const int ResultRunSingleMethodTest = 2131034140;
+			public const int ResultFullName = 2131034142;
 			
 			// aapt resource value: 0x7f050020
-			public const int ResultStackTrace = 2131034144;
+			public const int ResultMessage = 2131034144;
+			
+			// aapt resource value: 0x7f05001f
+			public const int ResultResultState = 2131034143;
+			
+			// aapt resource value: 0x7f05001d
+			public const int ResultRunSingleMethodTest = 2131034141;
+			
+			// aapt resource value: 0x7f050021
+			public const int ResultStackTrace = 2131034145;
 			
 			// aapt resource value: 0x7f050011
 			public const int ResultsFailed = 2131034129;
@@ -133,11 +133,11 @@ namespace TrackMate
 			// aapt resource value: 0x7f05000f
 			public const int ResultsResult = 2131034127;
 			
-			// aapt resource value: 0x7f050021
-			public const int RunTestsButton = 2131034145;
+			// aapt resource value: 0x7f050022
+			public const int RunTestsButton = 2131034146;
 			
-			// aapt resource value: 0x7f050023
-			public const int TestSuiteListView = 2131034147;
+			// aapt resource value: 0x7f050024
+			public const int TestSuiteListView = 2131034148;
 			
 			// aapt resource value: 0x7f050019
 			public const int distanceTravelled = 2131034137;
@@ -178,6 +178,9 @@ namespace TrackMate
 			// aapt resource value: 0x7f050004
 			public const int register = 2131034116;
 			
+			// aapt resource value: 0x7f05001b
+			public const int scrollView1 = 2131034139;
+			
 			// aapt resource value: 0x7f050015
 			public const int startTracking = 2131034133;
 			
@@ -187,8 +190,8 @@ namespace TrackMate
 			// aapt resource value: 0x7f05000d
 			public const int submit = 2131034125;
 			
-			// aapt resource value: 0x7f05001b
-			public const int textView1 = 2131034139;
+			// aapt resource value: 0x7f05001c
+			public const int textView1 = 2131034140;
 			
 			// aapt resource value: 0x7f050001
 			public const int username = 2131034113;

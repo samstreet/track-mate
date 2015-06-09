@@ -14,6 +14,7 @@ using Xamarin.Auth;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Timers;
 
 namespace TrackMate
 {
@@ -37,6 +38,7 @@ namespace TrackMate
 		double lastLat = 0.0;
 		double lastLon = 0.0;
 		Journey thisJourney = new Journey();
+		string ride_token = "";
 
 		protected async override void OnCreate (Bundle bundle)
 		{
@@ -104,13 +106,26 @@ namespace TrackMate
 
 				// hide it all
 				stop.Visibility = ViewStates.Invisible;
+
+				// handle if the button can be clicked if the location isn't enabled
 				start.Visibility = ViewStates.Visible;
+
+				// work in progress, doesn't seem to update on the fly
+//				if (!locMgr.IsProviderEnabled (LocationManager.GpsProvider) ||
+//				    !locMgr.IsProviderEnabled (LocationManager.NetworkProvider)) {
+//					// Build the alert dialog
+//					start.Enabled = false;
+//				} else {
+//					start.Enabled = true;
+//				}
+
 				latitude.Visibility = ViewStates.Invisible;
 				longitude.Visibility = ViewStates.Invisible;
 				distanceTravelled.Visibility = ViewStates.Invisible;
 
 				start.Click += async (object sender, EventArgs e) => {
-
+					start.Enabled = false;
+					// firstly make a request to create a new ride
 					// the user auth_token as we are valid at this point
 					ride.auth_token = accounts.FirstOrDefault().Properties["auth_token"];
 
@@ -122,21 +137,36 @@ namespace TrackMate
 
 					var auth = JObject.Parse (value);
 
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.SetTitle("Server Response");
-					builder.SetMessage(auth.ToString());
-					Dialog alertDialog = builder.Create();
-					alertDialog.SetCanceledOnTouchOutside(true);
+					if(Convert.ToBoolean(auth["success"].ToString()) == true){
 
-					RunOnUiThread (() => {
-						builder.Show();
-					} );
+						ride_token = auth["data"]["ride"]["token"].ToString();
 
-					stop.Visibility = ViewStates.Visible;
-					start.Visibility = ViewStates.Visible;
-					latitude.Visibility = ViewStates.Visible;
-					longitude.Visibility = ViewStates.Visible;
-					distanceTravelled.Visibility = ViewStates.Visible;
+						// start the timer going
+						// Create a 5 min timer 
+						var timer = new System.Timers.Timer(3000);
+
+
+						// Hook up the Elapsed event for the timer.
+						timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+
+						timer.Enabled = true;
+
+						stop.Visibility = ViewStates.Visible;
+						start.Visibility = ViewStates.Visible;
+						latitude.Visibility = ViewStates.Visible;
+						longitude.Visibility = ViewStates.Visible;
+						distanceTravelled.Visibility = ViewStates.Visible;
+					} else {
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						builder.SetTitle("Server Response");
+						builder.SetMessage(auth.ToString());
+						Dialog alertDialog = builder.Create();
+						alertDialog.SetCanceledOnTouchOutside(true);
+
+						RunOnUiThread (() => {
+							builder.Show();
+						} );
+					}
 
 				};
 
@@ -151,12 +181,14 @@ namespace TrackMate
 					// make the request
 					var ride_json = "{ \"ride\" : " + ride.CreateJson() + "}";
 
+					// this is just a holder to hold see the data and response
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.SetTitle("Lat Lon points");
 					builder.SetMessage(ride_json);
 					Dialog alertDialog = builder.Create();
 					alertDialog.SetCanceledOnTouchOutside(true);
 
+					// update on the UI thread
 					RunOnUiThread (() => {
 						builder.Show();
 					} );
@@ -187,6 +219,9 @@ namespace TrackMate
 		}
 
 		// calculations for distance travelled
+		// there are some issues with the way this is calculated and will require further investigation
+		// the bacground process seems to want to constantly update this even if the lats and lons
+		// are the same.
 		public void calculateDistanceTravelled(double currentLat, double currentLon, double lastLat, double lastLon, char unit = 'K'){
 			double rlat1 = Math.PI*currentLat/180;
 			double rlat2 = Math.PI*lastLat/180;
@@ -202,9 +237,7 @@ namespace TrackMate
 			dist = Math.Acos(dist);
 			dist = dist*180/Math.PI;
 
-			double currentDistance = travelled;
-
-			double newDistance = currentDistance + dist;
+			double newDistance = travelled + dist;
 
 			string travelUnit = "Km";
 
@@ -227,10 +260,7 @@ namespace TrackMate
 
 			distanceTravelled.Text = string.Format ("Distance travelled: {0} {1}", travelled, travelUnit);
 		}
-
-		///<summary>
-		/// Updates UI with location data
-		/// </summary>
+		
 		public void HandleLocationChanged(object sender, LocationChangedEventArgs e)
 		{
 			Android.Locations.Location location = e.Location;
@@ -244,21 +274,25 @@ namespace TrackMate
 			if (lastLat == 0.0)
 				lastLat = location.Latitude;
 			thisJourney.startLat = location.Latitude;
+			lastLat = location.Latitude;
 
 			if (lastLon == 0.0)
 				lastLon = location.Longitude;
 			thisJourney.startLon = location.Longitude;
+			lastLon = location.Longitude;
 
+			// generate a new lat lon DataContract object in order to have params pushed into it
 			string points = new LatLonPoints (){ Lat = location.Latitude.ToString(), Lon = location.Longitude.ToString() }.ToJSON();
-
-			lat_lon_points.Add(points);
  			
-			// calculate the distance travelled
-			calculateDistanceTravelled (location.Latitude, location.Longitude, lastLat, lastLon);
-
+			// not working
+			if(location.Latitude != lastLat || location.Longitude != lastLon){
+				// push the lat and lon updates to the list, we only want to do this once a change has occured
+				lat_lon_points.Add(points);
+				// calculate the distance travelled
+				calculateDistanceTravelled (location.Latitude, location.Longitude, lastLat, lastLon);
+			}
 			// these events are on a background thread, need to update on the UI thread
 			RunOnUiThread (() => {
-				output.Text = lat_lon_points.FirstOrDefault();
 				latitude.Text = String.Format ("Latitude: {0}", location.Latitude);
 				longitude.Text = String.Format ("Longitude: {0}", location.Longitude);
 			});
@@ -298,6 +332,33 @@ namespace TrackMate
 		{
 			Log.Debug (logTag, "Location status changed, event raised");
 			locationStatus.Text = "status changed";
+		}
+
+		// when the timer has run it's course, we fire off a request to the server with the 
+		// latest known position of a rider
+		// this will return a response that may sugegst the rider has been in the location 
+		// for an extended period of time and we may need to provide assisstance.
+		public void OnTimedEvent(object source, ElapsedEventArgs e){
+			updateLatLonPoints(ride_token, lastLat.ToString(), lastLon.ToString(), DateTime.Now.ToString());
+		}
+
+		public async void updateLatLonPoints(string token, string lat, string lon, string date){
+			var request = new Request();
+
+			var auth_token = AccountStore.Create (this).FindAccountsForService ("TrackMate").FirstOrDefault ().Properties ["auth_token"];
+
+			var update = new LatLonUpdates ();
+			update.Lat = lat;
+			update.Lon = lon;
+			update.token = token;
+			update.date = date;
+			update.auth_token = auth_token.ToString ();
+
+			var json = update.CreateJson ();
+
+			Task<string> update_points = request.makeRequest ("update/location", "POST", json);
+
+			var result = await update_points;
 		}
 	}
 }

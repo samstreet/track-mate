@@ -12,7 +12,7 @@ namespace TrackMate
 		// check to see if the auth token on the device is still valid
 		// compare a DateTime of now against a DateTime of the token expire
 		public static bool isAuthTokenValid(DateTime auth_expires){
-			var now = new DateTime ();
+			var now = DateTime.Now;
 
 			if (now < auth_expires)
 				return true;
@@ -23,7 +23,7 @@ namespace TrackMate
 		// check to see if the refresh token on the device is still valid
 		// compare a DateTime of now against a DateTime of the token expire
 		public static bool isRefreshTokenValid(DateTime refresh_token) {
-			var now = new DateTime ();
+			var now = DateTime.Now;
 
 			if (now < refresh_token)
 				return true;

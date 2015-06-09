@@ -66,7 +66,6 @@
     <Compile Include="Service\API.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="RegisterActivity.cs" />
-    <Compile Include="API\Register.cs" />
     <Compile Include="Service\LocationServiceBinder.cs" />
     <Compile Include="Service\LocationService.cs" />
     <Compile Include="Service\LocationServiceConnection.cs" />
@@ -74,6 +73,11 @@
     <Compile Include="Service\ServiceConnectedEventArgs.cs" />
     <Compile Include="Service\Auth.cs" />
     <Compile Include="LatLonPoints.cs" />
+    <Compile Include="API\LatLonUpdate.cs" />
+    <Compile Include="API\LoginRequest.cs" />
+    <Compile Include="API\ReAuthenticateRequest.cs" />
+    <Compile Include="API\NewRideRequest.cs" />
+    <Compile Include="API\Base.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

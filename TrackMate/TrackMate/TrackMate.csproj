@@ -78,6 +78,10 @@
     <Compile Include="API\ReAuthenticateRequest.cs" />
     <Compile Include="API\NewRideRequest.cs" />
     <Compile Include="API\Base.cs" />
+    <Compile Include="Service\NotifyUser.cs" />
+    <Compile Include="RidesActivity.cs" />
+    <Compile Include="RideActivity.cs" />
+    <Compile Include="API\AllRidesRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -102,6 +106,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\track_mate_logo.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\track_mate_logo.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\track_mate_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\bg.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\bg.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\bg.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\bg.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\bg.png" />
+    <AndroidResource Include="Resources\layout\Rides.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\xamstore-xamarin.auth.1.2.2\build\monoandroid\xamstore-xamarin.auth.props" Condition="Exists('..\packages\xamstore-xamarin.auth.1.2.2\build\monoandroid\xamstore-xamarin.auth.props')" />

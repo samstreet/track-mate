@@ -13,15 +13,15 @@ using Xamarin.Auth;
 
 namespace TrackMate
 {
-	[Activity (Label = "TrackMate", MainLauncher = true,Icon = "@drawable/icon")]			
+	[Activity (Label = "TrackMate", MainLauncher = true,Icon = "@drawable/icon", Theme = "@android:style/Theme.NoTitleBar")]			
 	public class LoginActivity : Activity
 	{
+
+		bool isValid = false;
+
+
 		protected async override void OnCreate (Bundle bundle)
 		{
-			base.OnCreate (bundle);
-
-			bool isValid = false;
-
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
@@ -29,12 +29,12 @@ namespace TrackMate
 				isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
 
 			if (accounts.Any () && isValid) {
-				var mainActivity = new Intent (this, typeof(MainActivity));
-				StartActivity (mainActivity);
+				var loginActivity = new Intent (this, typeof(LoginActivity));
+				StartActivity (loginActivity);
 
 			} else {
 
-
+				base.OnCreate (bundle);
 
 				SetContentView (Resource.Layout.Login);
 
@@ -42,8 +42,10 @@ namespace TrackMate
 				Button register = FindViewById<Button> (Resource.Id.register);
 				TextView username = FindViewById<TextView> (Resource.Id.username);
 				TextView password = FindViewById<TextView> (Resource.Id.password);
+				ProgressBar attempting = FindViewById<ProgressBar> (Resource.Id.progress);
 
-				// testing only 
+
+				// errors only 
 				TextView output = FindViewById<TextView> (Resource.Id.output);
 
 				register.Click += delegate {
@@ -52,6 +54,9 @@ namespace TrackMate
 				};
 
 				login.Click += async (object sender, EventArgs e) => {
+
+					attempting.Visibility = Android.Views.ViewStates.Visible;
+
 					var request = new Request ();
 
 					var loginRequest = new LoginRequest ();
@@ -87,6 +92,7 @@ namespace TrackMate
 						StartActivity (mainActivity);
 
 					} else {
+						attempting.Visibility = Android.Views.ViewStates.Gone;
 						string error = auth ["error"].ToString ();
 						output.Text = error;
 					}

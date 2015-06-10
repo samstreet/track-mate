@@ -45,3 +45,8 @@
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xhdpi/track_mate_logo.png
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xxhdpi/track_mate_logo.png
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xxxhdpi/track_mate_logo.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-hdpi/bg.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-mdpi/bg.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xhdpi/bg.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xxhdpi/bg.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Debug/res/drawable-xxxhdpi/bg.png

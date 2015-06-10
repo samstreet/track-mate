@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace TrackMate
 {
@@ -11,10 +12,10 @@ namespace TrackMate
 		public string auth_token { get; set;}
 
 		[DataMember (Name="start")]
-		public DateTime start_time { get; set;}
+		public string start_time { get; set;}
 
 		[DataMember (Name="end")]
-		public DateTime end_time { get; set;}
+		public string end_time { get; set;}
 
 		[DataMember (Name="duration")]
 		public string duration { get; set;}

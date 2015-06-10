@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace TrackMate
 {
-	[Activity (Label = "TrackMate", Icon = "@drawable/icon")]
+	[Activity (Label = "TrackMate", Icon = "@drawable/icon", Theme = "@android:style/Theme.NoTitleBar")]
 	public class MainActivity : Activity
 	{
 

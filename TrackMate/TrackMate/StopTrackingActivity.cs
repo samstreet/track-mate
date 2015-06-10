@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace TrackMate
 {
-	[Activity (Label = "TrackMate", Icon = "@drawable/icon")]			
+	[Activity (Label = "TrackMate", Icon = "@drawable/icon", Theme = "@android:style/Theme.NoTitleBar")]			
 	public class StopTrackingActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)

@@ -65,21 +65,12 @@ namespace TrackMate
 
 				// could move this onto its own method
 				if (!locMgr.IsProviderEnabled (LocationManager.GpsProvider) ||
-					!locMgr.IsProviderEnabled (LocationManager.NetworkProvider)) {
-					// Build the alert dialog
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.SetTitle("Location Services Not Active");
-					builder.SetMessage("Please enable Location Services and GPS");
-					builder.SetPositiveButton ("Ok", (senderAlert, args) => {
-						Intent intent = new Intent(Settings.ActionLocationSourceSettings);
-						StartActivity(intent);
-					} );
-					Dialog alertDialog = builder.Create();
-					alertDialog.SetCanceledOnTouchOutside(false);
+				    !locMgr.IsProviderEnabled (LocationManager.NetworkProvider)) {
 
-					RunOnUiThread (() => {
-						builder.Show();
-					} );
+					notifyUser_gps_disabled ();
+
+				} else {
+					notififyUser_location_attained ();
 				}
 
 
@@ -137,13 +128,16 @@ namespace TrackMate
 
 					var auth = JObject.Parse (value);
 
-					if(Convert.ToBoolean(auth["success"].ToString()) == true){
+					if(Convert.ToBoolean(auth["success"].ToString())){
+
+						// notify the user that it is in progress
+						notififyUser_activity_in_progress();
 
 						ride_token = auth["data"]["ride"]["token"].ToString();
 
 						// start the timer going
 						// Create a 5 min timer 
-						var timer = new System.Timers.Timer(3000);
+						var timer = new Timer(3000);
 
 
 						// Hook up the Elapsed event for the timer.
@@ -157,26 +151,25 @@ namespace TrackMate
 						longitude.Visibility = ViewStates.Visible;
 						distanceTravelled.Visibility = ViewStates.Visible;
 					} else {
-						AlertDialog.Builder builder = new AlertDialog.Builder(this);
-						builder.SetTitle("Server Response");
-						builder.SetMessage(auth.ToString());
-						Dialog alertDialog = builder.Create();
-						alertDialog.SetCanceledOnTouchOutside(true);
 
-						RunOnUiThread (() => {
-							builder.Show();
-						} );
+						// 
+						system_response(auth.ToString());
+
+
 					}
 
 				};
 
 				stop.Click += delegate {
+
+
+
 					//var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
 
 					// finsih the ride and ammend the data to be sent
 					ride.lat_lon_points = lat_lon_points;
 					ride.distance = travelled;
-					ride.end_time = new DateTime();
+					ride.end_time = DateTime.Now.ToString("G");
 
 					// make the request
 					var ride_json = "{ \"ride\" : " + ride.CreateJson() + "}";
@@ -358,7 +351,67 @@ namespace TrackMate
 
 			Task<string> update_points = request.makeRequest ("update/location", "POST", json);
 
-			var result = await update_points;
+			await update_points;
+		}
+
+
+		public void notififyUser_location_attained(){
+
+			Notification.Builder builder = new Notification.Builder(this)
+				.SetAutoCancel (false)
+				.SetContentTitle ("Location attained")
+				.SetSmallIcon(Resource.Drawable.Icon)
+				.SetContentText ("we have your location");
+
+			// Finally publish the notification
+			NotificationManager notificationManager = (NotificationManager)GetSystemService(NotificationService);
+			notificationManager.Notify(1, builder.Build());
+
+		}
+
+		public void notififyUser_activity_in_progress(){
+
+			Notification.Builder builder = new Notification.Builder(this)
+				.SetAutoCancel (false)
+				.SetContentTitle ("Activityin progress")
+				.SetSmallIcon(Resource.Drawable.Icon)
+				.SetOngoing(true)
+				.SetContentText ("Your activity is in progress");
+
+			// Finally publish the notification
+			NotificationManager notificationManager = (NotificationManager)GetSystemService(NotificationService);
+			notificationManager.Notify(1, builder.Build());
+
+		}
+
+
+		public void notifyUser_gps_disabled(){
+			// Build the alert dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder (this);
+			builder.SetTitle ("Location Services Not Active");
+			builder.SetMessage ("Please enable Location Services and GPS");
+			builder.SetPositiveButton ("Ok", (senderAlert, args) => {
+				Intent intent = new Intent (Settings.ActionLocationSourceSettings);
+				StartActivity (intent);
+			});
+			Dialog alertDialog = builder.Create ();
+			alertDialog.SetCanceledOnTouchOutside (false);
+
+			RunOnUiThread (() => {
+				builder.Show ();
+			});
+		}
+
+		public void system_response(string message){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.SetTitle("Server Response");
+			builder.SetMessage(message);
+			Dialog alertDialog = builder.Create();
+			alertDialog.SetCanceledOnTouchOutside(true);
+
+			RunOnUiThread (() => {
+				builder.Show();
+			} );
 		}
 	}
 }

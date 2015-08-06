@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="fill_parent"
@@ -34,10 +33,11 @@
             android:padding="10dp"
             android:background="@android:color/white"
             android:textColor="#ff6f6f6f"
-            android:hint="username"
+            android:hint="USERNAME"
             android:textAlignment="center"
             android:gravity="center_horizontal"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:singleLine="true" />
         <EditText
             android:id="@+id/password"
             android:layout_width="fill_parent"
@@ -46,11 +46,12 @@
             android:background="@android:color/white"
             android:inputType="textPassword"
             android:textColor="#ff6f6f6f"
-            android:hint="password"
+            android:hint="PASSWORD"
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:layout_margin="5dp"
-            android:focusable="true" />
+            android:focusable="true"
+            android:singleLine="true" />
         <Button
             android:id="@+id/login"
             android:layout_width="fill_parent"
@@ -62,7 +63,8 @@
             android:textColor="@android:color/white"
             android:padding="15dp"
             android:textAllCaps="true"
-            android:hapticFeedbackEnabled="true" />
+            android:hapticFeedbackEnabled="true"
+            android:layout_margin="5dp" />
         <Button
             android:id="@+id/register"
             android:layout_width="fill_parent"
@@ -74,6 +76,7 @@
             android:textColor="@android:color/white"
             android:padding="15dp"
             android:textAllCaps="true"
-            android:hapticFeedbackEnabled="true" />
+            android:hapticFeedbackEnabled="true"
+            android:layout_margin="5dp" />
     </LinearLayout>
 </RelativeLayout>

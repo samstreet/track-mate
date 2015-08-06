@@ -1,14 +1,7 @@
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/bin/Debug/TrackMate.UITests.dll.mdb
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/bin/Debug/TrackMate.UITests.dll
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/obj/Debug/TrackMate.UITests.dll
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/obj/Debug/TrackMate.UITests.dll.mdb
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/bin/Debug/nunit.framework.dll
-/private/var/www/TrackMate/TrackMate/TrackMate.UITests/bin/Debug/Xamarin.UITest.dll
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Debug/TrackMate.UITests.dll.mdb
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Debug/TrackMate.UITests.dll
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/obj/Debug/TrackMate.UITests.dll
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/obj/Debug/TrackMate.UITests.dll.mdb
-/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Debug/nunit.framework.dll
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Debug/Xamarin.UITest.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Debug/nunit.framework.dll

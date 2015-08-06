@@ -43,6 +43,7 @@ namespace TrackMate
 		protected async override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			SetContentView (Resource.Layout.StartTracking);
 
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
@@ -58,7 +59,7 @@ namespace TrackMate
 
 			} else {
 
-				SetContentView (Resource.Layout.StartTracking);
+
 
 				// get the location service 
 				locMgr = GetSystemService (Context.LocationService) as LocationManager;

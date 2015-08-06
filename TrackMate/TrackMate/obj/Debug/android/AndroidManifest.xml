@@ -13,6 +13,7 @@
     </activity>
     <activity android:label="Register" android:theme="@android:style/Theme.NoTitleBar" android:name="md55a0d52af901586059d3aed079f94fb17.RegisterActivity" />
     <service android:name="md55a0d52af901586059d3aed079f94fb17.LocationService" />
+    <activity android:label="RidesActivity" android:name="md55a0d52af901586059d3aed079f94fb17.RidesActivity" />
     <activity android:label="Web Authenticator" android:name="md550f8a10a740eb4fb6376baab8337ce22.FormAuthenticatorActivity" />
     <activity android:label="Web Authenticator" android:name="md550f8a10a740eb4fb6376baab8337ce22.WebAuthenticatorActivity" />
     <activity android:label="NUnitLite runner" android:name="md5e0d9a58f8ef4c80c20dd923cca887f60.TestSuiteActivity" />
@@ -29,5 +30,4 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

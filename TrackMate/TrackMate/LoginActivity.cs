@@ -13,19 +13,25 @@ using Xamarin.Auth;
 
 namespace TrackMate
 {
-	[Activity (Label = "TrackMate", MainLauncher = true,Icon = "@drawable/icon", Theme = "@android:style/Theme.NoTitleBar")]			
+	[Activity (Label = "TrackMate", MainLauncher = true, Icon = "@drawable/icon", Theme = "@android:style/Theme.NoTitleBar")]			
 	public class LoginActivity : Activity
 	{
 
 		bool isValid = false;
 
 
+
 		protected async override void OnCreate (Bundle bundle)
 		{
+			
+
+			base.OnCreate (bundle);
+			SetContentView (Resource.Layout.Login);
+
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
-			if(accounts.Any())
+			if (accounts.Any ())
 				isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
 
 			if (accounts.Any () && isValid) {
@@ -33,10 +39,6 @@ namespace TrackMate
 				StartActivity (loginActivity);
 
 			} else {
-
-				base.OnCreate (bundle);
-
-				SetContentView (Resource.Layout.Login);
 
 				Button login = FindViewById<Button> (Resource.Id.login);
 				Button register = FindViewById<Button> (Resource.Id.register);
@@ -55,6 +57,8 @@ namespace TrackMate
 
 				login.Click += async (object sender, EventArgs e) => {
 
+					// reset the value to empty
+					output.Visibility = Android.Views.ViewStates.Gone;
 					attempting.Visibility = Android.Views.ViewStates.Visible;
 
 					var request = new Request ();
@@ -65,39 +69,44 @@ namespace TrackMate
 
 					string postBody = loginRequest.CreateJson (); 
 
-					Task<string> response = request.makeRequest ("authenticate", "POST", postBody);
+					try {
+						Task<string> response = request.makeRequest ("authenticate", "POST", postBody);
 
-					string value = await response;
+						string value = await response;
 
-					var auth = JObject.Parse (value);
+						var auth = JObject.Parse (value);
 
-					string success = auth ["success"].ToString ();
+						string success = auth ["success"].ToString ();
 
-					if (success.ToLower () == "true") {
+						if (success.ToLower () == "true") {
 
-						// generate a new account with the details we pass back form the api
-						var user = new Account ();
-						user.Username = username.Text;
-						user.Properties.Add ("auth_token", auth ["data"] ["auth"] ["token"].ToString ());
-						user.Properties.Add ("auth_token_expires", auth ["data"] ["auth"] ["auth_expires"] ["date"].ToString ());
-						user.Properties.Add ("refresh_token", auth ["data"] ["refresh"] ["token"].ToString ());
-						user.Properties.Add ("refresh_token_expires", auth ["data"] ["refresh"] ["refresh_expires"] ["date"].ToString ());
+							// generate a new account with the details we pass back form the api
+							var user = new Account ();
+							user.Username = username.Text;
+							user.Properties.Add ("auth_token", auth ["data"] ["auth"] ["token"].ToString ());
+							user.Properties.Add ("auth_token_expires", auth ["data"] ["auth"] ["auth_expires"] ["date"].ToString ());
+							user.Properties.Add ("refresh_token", auth ["data"] ["refresh"] ["token"].ToString ());
+							user.Properties.Add ("refresh_token_expires", auth ["data"] ["refresh"] ["refresh_expires"] ["date"].ToString ());
 
-						// run in the background?
-						// I think this will work?
-						AccountStore.Create (this).Save (user, "TrackMate");
+							// run in the background?
+							// I think this will work?
+							AccountStore.Create (this).Save (user, "TrackMate");
 
-						// push out to the main activity
-						var mainActivity = new Intent (this, typeof(MainActivity));
-						StartActivity (mainActivity);
+							// push out to the main activity
+							var mainActivity = new Intent (this, typeof(MainActivity));
+							StartActivity (mainActivity);
 
-					} else {
+
+						} else {
+							attempting.Visibility = Android.Views.ViewStates.Gone;
+							string error = auth ["error"].ToString ();
+							output.Text = error;
+						}
+
+					} catch (Exception ex) {
 						attempting.Visibility = Android.Views.ViewStates.Gone;
-						string error = auth ["error"].ToString ();
-						output.Text = error;
+						output.Text = "There appears to be a problem, try again later";
 					}
-
-
 				};
 
 			}

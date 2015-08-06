@@ -15,14 +15,17 @@ namespace TrackMate
 	// this class will allow for updates to be posted to the server upon completion of the tracking
 	public class Request
 	{
+		const string http = "http://10.71.34.1:80";
+
 		
 		public async Task<string> makeRequest (string endpoint, string method, string data)
 		{
 			HttpClient request = new HttpClient (); 
-			
-			// default params
+			request.BaseAddress = new Uri (http);
+			// defauparams
 			request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-			string url = "http://samstreet.niftydigital.co.uk/api/v1/" + endpoint + "";
+			//string url = "http://samstreet.niftydigital.co.uk/api/v1/" + endpoint + "";
+			string url = "http://dev.tracmate.com/api/v1/" + endpoint + "";
 
 			// force method to be upper using - method.ToUpper();
 			if (method.ToUpper() == "POST") {

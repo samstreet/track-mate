@@ -15,6 +15,7 @@ using Android.Widget;
 using Xamarin.Auth;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
+using Android.Util;
 
 
 namespace TrackMate
@@ -28,18 +29,18 @@ namespace TrackMate
 
 		protected async override void OnCreate (Bundle bundle)
 		{
+			base.OnCreate (bundle);
+
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
 			if(accounts.Any())
 				isValid = await Auth.isUserValid (accounts.FirstOrDefault (), this);
 
-			if (accounts.Any () && isValid) {
-				var mainActivity = new Intent (this, typeof(MainActivity));
-				StartActivity (mainActivity);
+			if (!accounts.Any () && !isValid) {
+				var loginActivity = new Intent (this, typeof(LoginActivity));
+				StartActivity (loginActivity);
 
 			} else {
-
-				base.OnCreate (bundle);
 
 				SetContentView (Resource.Layout.Rides);
 
@@ -50,18 +51,23 @@ namespace TrackMate
 
 				var request = new Request ();
 
-				Task<string> response = request.makeRequest ("rides/all", "POST", json);
+				try{
+					var url = "rides/all/" + accounts.FirstOrDefault().Properties["auth_token"];
 
-				string value = await response;
+					Task<string> response = request.makeRequest (url, "GET", json);
 
-				var rides = JObject.Parse (value);
+					string value = await response;
 
-				// should conv. to bool
-				if(rides["success"].ToString() == "true"){
-					// echo out all rides
-				} else {
-					// something went wrong
+					var rides = JObject.Parse (value);
+
+					var user_rides = rides["data"]["rides"];
+
+
+
+				} catch(Exception ex){
+					
 				}
+
 
 			}
 

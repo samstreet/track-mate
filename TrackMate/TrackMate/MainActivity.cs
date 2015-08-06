@@ -18,6 +18,8 @@ namespace TrackMate
 		protected async override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			// Set our view from the "main" layout resource
+			SetContentView (Resource.Layout.Main);
 
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
@@ -32,21 +34,24 @@ namespace TrackMate
 				
 
 				if (isValid) {
-
-					accounts.FirstOrDefault ();
 					// assume everything is okay and continue with the process
 
-					// Set our view from the "main" layout resource
-					SetContentView (Resource.Layout.Main);
+
 
 					// Get our button from the layout resource,
 					// and attach an event to it
 					Button button = FindViewById<Button> (Resource.Id.myButton);
 					Button logout = FindViewById<Button> (Resource.Id.logout);
+					Button rides = FindViewById<Button> (Resource.Id.rides);
 
 					button.Click += async (object sender, EventArgs e) => {
 						var startTrackingActivity = new Intent (this, typeof(StartTrackingActivity));
 						StartActivity (startTrackingActivity);
+					};
+
+					rides.Click += async (object sender, EventArgs e) => {
+						var startRidesActivity = new Intent (this, typeof(RidesActivity));
+						StartActivity (startRidesActivity);
 					};
 
 					logout.Click += delegate {

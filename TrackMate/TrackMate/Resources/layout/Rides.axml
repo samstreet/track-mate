@@ -20,5 +20,16 @@
             android:text="My Rides"
             android:textColor="@android:color/white"
             android:padding="15dp" />
+        <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar1" />
+        <ScrollView
+            android:minWidth="25px"
+            android:minHeight="150px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView1" />
     </LinearLayout>
 </RelativeLayout>

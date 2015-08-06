@@ -50,3 +50,4 @@
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xhdpi/bg.png
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxhdpi/bg.png
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxxhdpi/bg.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/layout/rides.xml

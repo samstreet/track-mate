@@ -1,0 +1,15 @@
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/MonoAndroid,Version=v4.3.AssemblyAttribute.cs
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/bin/Debug/Sample.dll.mdb
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/bin/Debug/Sample.dll
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/bin/Debug/com.gcm.sample.apk
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/android/bin/com.gcm.sample.apk
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/res/layout/main.xml
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/res/values/strings.xml
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/res/drawable/icon.png
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/R.cs.flag
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/bin/Debug/com.gcm.sample-Signed.apk
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/uploadflags.txt
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/Sample.dll
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/Sample.dll.mdb
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/bin/Debug/GCM.Client.dll
+/private/var/www/Track-Mate-Git/TrackMate/Components/GCMClient-1.0/samples/Sample/obj/Debug/MonoAndroid,Version=v5.0.AssemblyAttribute.cs

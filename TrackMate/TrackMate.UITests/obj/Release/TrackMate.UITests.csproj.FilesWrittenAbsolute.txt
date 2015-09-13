@@ -1,0 +1,7 @@
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/obj/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Release/TrackMate.UITests.dll.mdb
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Release/TrackMate.UITests.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/obj/Release/TrackMate.UITests.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/obj/Release/TrackMate.UITests.dll.mdb
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Release/Xamarin.UITest.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate.UITests/bin/Release/nunit.framework.dll

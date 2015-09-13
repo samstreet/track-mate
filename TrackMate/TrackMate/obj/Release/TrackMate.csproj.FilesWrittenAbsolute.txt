@@ -51,3 +51,16 @@
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxhdpi/bg.png
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxxhdpi/bg.png
 /private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/layout/rides.xml
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/bin/Release/GCM.Client.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/bin/Release/Geolocator.Plugin.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/bin/Release/Geolocator.Plugin.Abstractions.dll
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-hdpi/progressbar.xml
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-mdpi/progressbar.xml
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xhdpi/progressbar.xml
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxhdpi/progressbar.xml
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxxhdpi/progressbar.xml
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-hdpi/logo_holder.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-mdpi/logo_holder.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xhdpi/logo_holder.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxhdpi/logo_holder.png
+/private/var/www/Track-Mate-Git/TrackMate/TrackMate/obj/Release/res/drawable-xxxhdpi/logo_holder.png

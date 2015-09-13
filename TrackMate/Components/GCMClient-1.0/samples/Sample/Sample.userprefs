@@ -1,0 +1,20 @@
+﻿<Properties StartupItem="Sample.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.Nexus 5 (KitKat)" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../TrackMate/Service/GcmService.cs">
+    <Files>
+      <File FileName="../../../../TrackMate/LoginActivity.cs" Line="1" Column="1" />
+      <File FileName="../../../../TrackMate/LatLonPoints.cs" Line="1" Column="1" />
+      <File FileName="../../../../TrackMate/StartTrackingActivity.cs" Line="1" Column="1" />
+      <File FileName="../../../../TrackMate/API/LatLonUpdate.cs" Line="1" Column="1" />
+      <File FileName="../../../../TrackMate/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="../../../../TrackMate/Service/GcmService.cs" Line="94" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/Service/GcmService.cs" line="104" column="92" />
+      <Breakpoint file="/private/var/www/Track-Mate-Git/TrackMate/TrackMate/Service/GcmService.cs" line="103" column="33" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

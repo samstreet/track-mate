@@ -42,7 +42,7 @@ namespace TrackMate
 
 			} else {
 
-				SetContentView (Resource.Layout.Rides);
+//				SetContentView (Resource.Layout.Rides);
 
 				var getAllRides = new AllRidesRequest ();
 				getAllRides.auth_token = accounts.FirstOrDefault().Properties["auth_token"];

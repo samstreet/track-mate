@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="#C23B22"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="fill_parent"
@@ -16,31 +16,34 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/password"
             android:layout_marginTop="10dp"
-            android:background="#307FC1"
+            android:background="#779ECB"
             android:text="Start Stracking"
-            android:textColor="@android:color/white"
+            android:textColor="#FFFFFF"
             android:padding="15dp"
-            android:hapticFeedbackEnabled="true" />
-        <Button
-            android:id="@+id/rides"
-            android:layout_width="fill_parent"
+            android:hapticFeedbackEnabled="true"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:visibility="gone" />
+        <TextView
+            android:text="Auth Token"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/password"
-            android:layout_marginTop="10dp"
-            android:background="#307FC1"
-            android:text="My Rides"
-            android:textColor="@android:color/white"
-            android:padding="15dp"
-            android:hapticFeedbackEnabled="true" />
+            android:id="@+id/authTokenView" />
+        <TextView
+            android:text="Refresh Token"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/refreshTokenView" />
         <Button
             android:id="@+id/logout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/password"
             android:layout_marginTop="10dp"
-            android:background="#307FC1"
+            android:background="#779ECB"
             android:text="logout"
-            android:textColor="@android:color/white"
+            android:textColor="#FFFFFF"
             android:padding="15dp"
             android:hapticFeedbackEnabled="true" />
     </LinearLayout>

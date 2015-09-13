@@ -12,7 +12,7 @@ namespace TrackMate
 
 			string result;
 
-			var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://dev.trackmate.com/api/" + endpoint);
+			var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://samstreet.niftydigital.co.uk/api/v1/" + endpoint);
 			httpWebRequest.ContentType = "application/json";
 			httpWebRequest.Method = "POST";
 
@@ -40,7 +40,7 @@ namespace TrackMate
 		public static HttpWebRequest CreateWebRequest(string endpoint)
 		{
 			// local
-			HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://dev.trackmate.com/api/" + endpoint);
+			HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://samstreet.niftydigital.co.uk/api/v1/" + endpoint);
 			// live 
 			// HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://samstreet.wearenifty.co.uk/api/");
 			webRequest.ContentType = "application/json";

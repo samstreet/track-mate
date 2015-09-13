@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Xamarin.Auth;
 using System.Linq;
 using System.Threading.Tasks;
+using Gcm.Client;
 
 namespace TrackMate
 {
@@ -42,24 +43,32 @@ namespace TrackMate
 					// and attach an event to it
 					Button button = FindViewById<Button> (Resource.Id.myButton);
 					Button logout = FindViewById<Button> (Resource.Id.logout);
-					Button rides = FindViewById<Button> (Resource.Id.rides);
+					TextView authToken = FindViewById<TextView> (Resource.Id.authTokenView);
+					TextView refreshToken = FindViewById<TextView> (Resource.Id.refreshTokenView);
+					//Button rides = FindViewById<Button> (Resource.Id.rides);
 
-					button.Click += async (object sender, EventArgs e) => {
-						var startTrackingActivity = new Intent (this, typeof(StartTrackingActivity));
-						StartActivity (startTrackingActivity);
-					};
 
-					rides.Click += async (object sender, EventArgs e) => {
-						var startRidesActivity = new Intent (this, typeof(RidesActivity));
-						StartActivity (startRidesActivity);
-					};
+					button.Visibility = Android.Views.ViewStates.Gone;
+//					button.Click += async (object sender, EventArgs e) => {
+//						var startTrackingActivity = new Intent (this, typeof(StartTrackingActivity));
+//						StartActivity (startTrackingActivity);
+//					};
+
+//					rides.Click += async (object sender, EventArgs e) => {
+//						var startRidesActivity = new Intent (this, typeof(RidesActivity));
+//						StartActivity (startRidesActivity);
+//					};
+
+					authToken.Text = accounts.FirstOrDefault().Properties["auth_token"];
+					refreshToken.Text = accounts.FirstOrDefault().Properties["refresh_token"];
+
 
 					logout.Click += delegate {
 						var account = AccountStore.Create (this).FindAccountsForService ("TrackMate");
 
 						if (account.Any ()) {
 							AccountStore.Create (this).Delete (account.FirstOrDefault (), "TrackMate");
-
+							GcmClient.UnRegister(this);
 							var startLoginActivity = new Intent (this, typeof(LoginActivity));
 							StartActivity (startLoginActivity);
 						}

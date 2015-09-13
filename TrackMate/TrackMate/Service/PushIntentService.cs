@@ -47,7 +47,7 @@ namespace TrackMate
 				}
 				else if (action.Equals("com.google.android.c2dm.intent.RECEIVE"))
 				{
-					HandleMessage(context, intent);
+					HandleMessage(intent);
 				}
 			}
 			finally

@@ -43,7 +43,6 @@ namespace TrackMate
 		protected async override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-			SetContentView (Resource.Layout.StartTracking);
 
 			// check if an account exists if true: force to main activ
 			IEnumerable<Account> accounts = AccountStore.Create (this).FindAccountsForService ("TrackMate");
@@ -87,12 +86,12 @@ namespace TrackMate
 				};
 
 				// view related vars
-				start = FindViewById<Button>(Resource.Id.startTracking);
-				stop = FindViewById<Button>(Resource.Id.stopTracking);
-				latitude = FindViewById<TextView> (Resource.Id.latitude);
-				longitude = FindViewById<TextView> (Resource.Id.longitude);
-				locationStatus = FindViewById<TextView> (Resource.Id.locationStatus);
-				distanceTravelled = FindViewById<TextView> (Resource.Id.distanceTravelled);
+//				start = FindViewById<Button>(Resource.Id.startTracking);
+//				stop = FindViewById<Button>(Resource.Id.stopTracking);
+//				latitude = FindViewById<TextView> (Resource.Id.latitude);
+//				longitude = FindViewById<TextView> (Resource.Id.longitude);
+//				locationStatus = FindViewById<TextView> (Resource.Id.locationStatus);
+//				distanceTravelled = FindViewById<TextView> (Resource.Id.distanceTravelled);
 
 				output = FindViewById<TextView> (Resource.Id.output);
 
@@ -162,9 +161,6 @@ namespace TrackMate
 				};
 
 				stop.Click += delegate {
-
-
-
 					//var stopTrackingActivity = new Intent (this, typeof(StopTrackingActivity));
 
 					// finsih the ride and ammend the data to be sent

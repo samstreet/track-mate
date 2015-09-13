@@ -82,6 +82,12 @@ class MonoPackageManager_Resources {
 		"TrackMate.dll",
 		"Newtonsoft.Json.dll",
 		"Xamarin.Auth.Android.dll",
+		"GCM.Client.dll",
+		"Geolocator.Plugin.dll",
+		"Geolocator.Plugin.Abstractions.dll",
+		"System.Reflection.Emit.ILGeneration.dll",
+		"System.Reflection.Emit.Lightweight.dll",
+		"System.Reflection.Emit.dll",
 		"Xamarin.Android.NUnitLite.dll",
 	};
 	public static final String[] Dependencies = new String[]{

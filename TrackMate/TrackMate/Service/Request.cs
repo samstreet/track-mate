@@ -24,8 +24,8 @@ namespace TrackMate
 			request.BaseAddress = new Uri (http);
 			// defauparams
 			request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-			//string url = "http://samstreet.niftydigital.co.uk/api/v1/" + endpoint + "";
-			string url = "http://dev.tracmate.com/api/v1/" + endpoint + "";
+			string url = "http://samstreet.niftydigital.co.uk/api/v1/" + endpoint + "";
+			//string url = "http://dev.tracmate.com/api/v1/" + endpoint + "";
 
 			// force method to be upper using - method.ToUpper();
 			if (method.ToUpper() == "POST") {

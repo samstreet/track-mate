@@ -2,37 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#C23B22"
+    android:requiresFadingEdge="horizontal"
+    android:fadingEdge="vertical">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/track_mate_logo" />
         <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/output"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textColor="#ffff66c3"
+            android:textColorHighlight="#ffff66c3" />
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/progress"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/progressbar" />
         <EditText
             android:id="@+id/username"
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:padding="10dp"
-            android:background="@android:color/white"
-            android:textColor="#ff6f6f6f"
+            android:background="#ffffffff"
+            android:textColor="#C23B22"
             android:hint="USERNAME"
             android:textAlignment="center"
             android:gravity="center_horizontal"
@@ -43,24 +44,25 @@
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:padding="10dp"
-            android:background="@android:color/white"
+            android:background="#ffffffff"
             android:inputType="textPassword"
-            android:textColor="#ff6f6f6f"
+            android:textColor="#C23B22"
             android:hint="PASSWORD"
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:layout_margin="5dp"
             android:focusable="true"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:password="true" />
         <Button
             android:id="@+id/login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/password"
             android:layout_marginTop="10dp"
-            android:background="#63307fc1"
+            android:background="#779ECB"
             android:text="Login"
-            android:textColor="@android:color/white"
+            android:textColor="#FFFFFF"
             android:padding="15dp"
             android:textAllCaps="true"
             android:hapticFeedbackEnabled="true"
@@ -71,12 +73,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/password"
             android:layout_marginTop="10dp"
-            android:background="#64307fc1"
+            android:background="#add9fe"
             android:text="Register"
             android:textColor="@android:color/white"
             android:padding="15dp"
             android:textAllCaps="true"
             android:hapticFeedbackEnabled="true"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

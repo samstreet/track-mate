@@ -10,6 +10,9 @@ using Android.Widget;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Xamarin.Auth;
+using Gcm.Client;
+using Geolocator.Plugin;
+using Android.Util;
 
 namespace TrackMate
 {
@@ -45,7 +48,7 @@ namespace TrackMate
 				TextView username = FindViewById<TextView> (Resource.Id.username);
 				TextView password = FindViewById<TextView> (Resource.Id.password);
 				ProgressBar attempting = FindViewById<ProgressBar> (Resource.Id.progress);
-
+				register.Visibility = Android.Views.ViewStates.Gone;
 
 				// errors only 
 				TextView output = FindViewById<TextView> (Resource.Id.output);
@@ -80,6 +83,9 @@ namespace TrackMate
 
 						if (success.ToLower () == "true") {
 
+
+
+
 							// generate a new account with the details we pass back form the api
 							var user = new Account ();
 							user.Username = username.Text;
@@ -87,10 +93,19 @@ namespace TrackMate
 							user.Properties.Add ("auth_token_expires", auth ["data"] ["auth"] ["auth_expires"] ["date"].ToString ());
 							user.Properties.Add ("refresh_token", auth ["data"] ["refresh"] ["token"].ToString ());
 							user.Properties.Add ("refresh_token_expires", auth ["data"] ["refresh"] ["refresh_expires"] ["date"].ToString ());
+							user.Properties.Add ("user_device_id", ""); // add this as default
+
 
 							// run in the background?
 							// I think this will work?
 							AccountStore.Create (this).Save (user, "TrackMate");
+
+							// GCM 
+							GcmClient.CheckDevice(this);
+							GcmClient.CheckManifest(this);
+							// wait until now to register the device as we need to be able to have an account store with the users details
+							GcmClient.Register(this, GcmBroadcastReceiver.SENDER_IDS);
+
 
 							// push out to the main activity
 							var mainActivity = new Intent (this, typeof(MainActivity));
